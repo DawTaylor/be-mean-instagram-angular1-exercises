@@ -1,4 +1,4 @@
-# AngularJS - Aula 01 - Exercício   
+# AngularJS - Aula 02 - Exercício   
 **user:** [dawtaylor](https://github.com/dawtaylor)  
 **autor:** Adalberto Taylor
 

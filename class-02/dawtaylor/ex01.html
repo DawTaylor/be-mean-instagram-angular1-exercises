@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-01</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style>
+	.dados {
+		font-size: 18pt;
+	}
+	</style>
+</head>
+<body>
+	<section class="container">
+		<div class="col-sm-6">
+			<h3 class="text-header">Informe seus dados</h3>
+			<div class="form-group">
+				<label for="nome" class="control-label">Nome:</label>
+				<input type="text" class="form-control" id="nome" name="nome" data-ng-model="nome">
+			</div>
+			<div class="form-group">
+				<label for="email" class="control-label">E-mail:</label>
+				<input type="text" class="form-control" id="email" name="email" data-ng-model="email">
+			</div>
+			<div class="form-group">
+				<label for="nascimento" class="control-label">Data de nascimento:</label>
+				<input type="text" class="form-control" id="nascimento" name="nascimento" data-ng-model="nascimento">
+			</div>
+			<div class="form-group">
+				<label for="idade" class="control-label">Idade:</label>
+				<input type="text" class="form-control" id="idade" name="idade" data-ng-model="idade">
+			</div>
+			<div class="form-group">
+				<label for="renda" class="control-label">Renda mensal:</label>
+				<input type="text" class="form-control" id="renda" name="renda" data-ng-model="renda">
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<h3 class="text-header">Seus dados</h3>
+			<div class="dados"><span>Nome: {{ nome | uppercase }}</span></div>
+			<div class="dados"><span>E-mail: {{ email | lowercase }}</span></div>
+			<div class="dados"><span>Data de nascimento: {{ nascimento | date }}</span></div>
+			<div class="dados"><span>Telefone: {{ idade | number }}</span></div>
+			<div class="dados"><span>Renda mensal: {{ renda | currency:"R$" }}</span></div>
+		</div>
+	</section>
+	<script type="text/javascript">
+		angular.module('BeMEAN', [])
+	</script>
+</body>
+</html>

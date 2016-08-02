@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-01</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style>
+	.dados {
+		font-size: 18pt;
+	}
+	</style>
+</head>
+<body>
+	<section class="container">
+		<div class="col-sm-6">
+			<h3 class="text-header">Você é legalmente responsável pelos seus atos?</h3>
+			<div class="form-group">
+				<label for="idade" class="control-label">Sua idade:</label>
+				<input type="text" class="form-control" id="idade" name="idade" data-ng-model="idade">
+			</div>
+			<h1 class="text-header">{{ idade | maioridade }}</h1>
+		</div>
+	</section>
+	<script type="text/javascript">
+		angular.module('BeMEAN', [])
+			.filter('maioridade', function(){
+				return function(text){
+					if (!isNaN(text)) return (text < 18) ? "Você não é legalmente responsável pelos seus atos." : "Você é legalmente responsável pelos seus atos."
+				}
+			})
+	</script>
+</body>
+</html>

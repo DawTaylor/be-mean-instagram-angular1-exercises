@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-03</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style>
+	.dados {
+		font-size: 18pt;
+	}
+	</style>
+</head>
+<body data-ng-controller="ProfessoresController as Professores">
+	<section class="container">
+		<div class="col-sm-6">
+			<h3 class="text-header">Professores</h3>
+			<ul>
+				<li data-ng-repeat="professor in Professores.professores">
+					{{ professor.turno | saudacao }} {{ professor.nome }} 
+				</li>
+			</ul>
+		</div>
+	</section>
+	<script type="text/javascript">
+		angular.module('BeMEAN', [])
+			.filter('saudacao', function(){
+				return function(text){
+					if (!text) return null
+
+					if (String(text).indexOf(":") >= 0)
+						var hora = parseInt(String(text).substring(0, String(text).indexOf((":"))))
+					else
+						var hora = parseInt(String(text))
+
+					if (hora > 23) hora = false
+
+					switch(true) {
+						case ( hora < 12) :
+							return "Bom dia!"
+							break
+						case ( hora >= 18) :
+							return "Boa noite!"
+							break
+						case ( hora >= 12 && hora < 18) :
+							return "Boa tarde!"
+							break
+						default :
+							return "Informe a hora em HH:MM"
+							break
+					}
+				}
+			})
+			.controller('ProfessoresController', ProfessoresController)
+
+		function ProfessoresController(){
+			var vm = this
+			vm.titulo = "Lista de professores"
+			vm.professores = [
+				{'nome' : 'Professor Pardal', 'turno' : '8:00'},
+				{'nome' : 'Professor Tibúcio', 'turno' : '13:00'},
+				{'nome' : 'Professor Bugiganga', 'turno' : '19:00'}
+			]
+		}
+	</script>
+</body>
+</html>

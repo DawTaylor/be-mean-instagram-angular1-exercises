@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-03</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style>
+	.dados {
+		font-size: 18pt;
+	}
+	</style>
+</head>
+<body>
+	<section class="container">
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="UserController as Users">
+				<span data-ng-init="predicate = 'age'"></span>
+				<h3 class="text-header">{{ Users.titulo }}</h3>
+				<label for="buscaUsuario" class="control-label">Buscar usuário</label>
+				<input type="text" class="form-control" data-ng-model="buscaUsuario">
+				<ul>
+					<li data-ng-repeat="usuario in Users.usuarios | orderBy:predicate | filter:buscaUsuario">
+						Usuáio: {{ usuario.name }} E-mail: {{ usuario.email }}
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="CursoController as Cursos">
+				<span data-ng-init="predicate = 'carga'"></span>
+				<h3 class="text-header">{{ Cursos.titulo }}</h3>
+				<label for="buscaCurso" class="control-label">Buscar curso</label>
+				<input type="text" class="form-control" data-ng-model="buscaCurso">
+				<ul>
+					<li data-ng-repeat="curso in Cursos.cursos | orderBy:predicate | filter:buscaCurso">
+						Curso: {{ curso.curso }} Professor: {{ curso.professor }}
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="ProfessoresController as Professores">
+				<span data-ng-init="predicate = 'age' "></span>
+				<h3 class="text-header">{{ Professores.titulo }}</h3>
+				<label for="buscaCurso" class="control-label">Buscar usuário</label>
+				<input type="text" class="form-control" data-ng-model="buscaCurso">
+				<ul>
+					<li data-ng-repeat="professor in Professores.professores | orderBy:predicate | filter:buscaCurso">
+						{{ professor.turno | saudacao }} {{ professor.nome }} 
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<script type="text/javascript">
+		angular.module('BeMEAN', [])
+			.filter('saudacao', function(){
+				return function(text){
+					if (!text) return null
+
+					if (String(text).indexOf(":") >= 0)
+						var hora = parseInt(String(text).substring(0, String(text).indexOf((":"))))
+					else
+						var hora = parseInt(String(text))
+
+					if (hora > 23) hora = false
+
+					switch(true) {
+						case ( hora < 12) :
+							return "Bom dia!"
+							break
+						case ( hora >= 18) :
+							return "Boa noite!"
+							break
+						case ( hora >= 12 && hora < 18) :
+							return "Boa tarde!"
+							break
+						default :
+							return "Informe a hora em HH:MM"
+							break
+					}
+				}
+			})
+			.controller('UserController', UserController)
+			.controller('CursoController', CursoController)
+			.controller('ProfessoresController', ProfessoresController)
+
+		function UserController(){
+			var vm = this
+			vm.titulo = "Usuários - BeMEAN"
+			vm.usuarios = [
+				{ 'name' : 'Adalberto', 'email' : 'adalberto@gmail.com', 'age' : 31 },
+				{ 'name' : 'Joãozinho', 'email' : 'joaozinho@gmail.com', 'age' : 8 },
+				{ 'name' : 'Abreu', 'email' : 'abreu@hotmail.com', 'age' : 20 }
+			]
+		}
+
+		function CursoController(){
+			var vm = this
+			vm.titulo = "Cursos - BeMEAN"
+			vm.cursos = [
+				{ 'curso' : 'MongoDB', 'professor' : 'Suissa', 'carga' : 10 },
+				{ 'curso' : 'NodeJS', 'professor' : 'Suissa', 'carga' : 700 },
+				{ 'curso' : 'AngularJS', 'professor' : 'Suissa', 'carga' : 50 }
+			]
+		}
+
+		function ProfessoresController(){
+			var vm = this
+			vm.titulo = "Professores - BeMEAN"
+			vm.professores = [
+				{'nome' : 'Professor Pardal', 'turno' : '8:00', 'age' : 70 },
+				{'nome' : 'Professor Tibúrcio', 'turno' : '13:00', 'age' : 40 },
+				{'nome' : 'Suissa', 'turno' : '19:00', 'age' : 'unkown' }
+			]
+		}
+	</script>
+</body>
+</html>

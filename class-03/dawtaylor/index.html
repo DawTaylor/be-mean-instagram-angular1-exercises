@@ -10,15 +10,37 @@
 	}
 	</style>
 </head>
-<body data-ng-controller="ProfessoresController as Professores">
+<body>
 	<section class="container">
-		<div class="col-sm-6">
-			<h3 class="text-header">Professores</h3>
-			<ul>
-				<li data-ng-repeat="professor in Professores.professores">
-					{{ professor.turno | saudacao }} {{ professor.nome }} 
-				</li>
-			</ul>
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="UserController as Users">
+				<h3 class="text-header">{{ Users.titulo }}</h3>
+				<ul>
+					<li data-ng-repeat="usuario in Users.usuarios">
+						Usuáio: {{ usuario.name }} E-mail: {{ usuario.email }}
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="CursoController as Cursos">
+				<h3 class="text-header">{{ Cursos.titulo }}</h3>
+				<ul>
+					<li data-ng-repeat="curso in Cursos.cursos">
+						Curso: {{ curso.curso }} Professor: {{ curso.professor }}
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6" data-ng-controller="ProfessoresController as Professores">
+				<h3 class="text-header">{{ Professores.titulo }}</h3>
+				<ul>
+					<li data-ng-repeat="professor in Professores.professores">
+						{{ professor.turno | saudacao }} {{ professor.nome }} 
+					</li>
+				</ul>
+			</div>
 		</div>
 	</section>
 	<script type="text/javascript">
@@ -50,15 +72,37 @@
 					}
 				}
 			})
+			.controller('UserController', UserController)
+			.controller('CursoController', CursoController)
 			.controller('ProfessoresController', ProfessoresController)
+
+		function UserController(){
+			var vm = this
+			vm.titulo = "Usuários - BeMEAN"
+			vm.usuarios = [
+				{ 'name' : 'Adalberto', 'email' : 'adalberto@gmail.com' },
+				{ 'name' : 'Joãozinho', 'email' : 'joaozinho@gmail.com' },
+				{ 'name' : 'Abreu', 'email' : 'abreu@hotmail.com' }
+			]
+		}
+
+		function CursoController(){
+			var vm = this
+			vm.titulo = "Cursos - BeMEAN"
+			vm.cursos = [
+				{ 'curso' : 'MongoDB', 'professor' : 'Suissa' },
+				{ 'curso' : 'NodeJS', 'professor' : 'Suissa' },
+				{ 'curso' : 'AngularJS', 'professor' : 'Suissa'}
+			]
+		}
 
 		function ProfessoresController(){
 			var vm = this
-			vm.titulo = "Lista de professores"
+			vm.titulo = "Professores - BeMEAN"
 			vm.professores = [
 				{'nome' : 'Professor Pardal', 'turno' : '8:00'},
 				{'nome' : 'Professor Tibúcio', 'turno' : '13:00'},
-				{'nome' : 'Professor Bugiganga', 'turno' : '19:00'}
+				{'nome' : 'Suissa', 'turno' : '19:00'}
 			]
 		}
 	</script>

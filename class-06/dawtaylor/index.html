@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-06</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+</head>
+<body>
+	<section class="container">
+		<div class="row" data-ng-controller="UserController as User">
+			<h3 class="text-header">{{ User.titulo }}</h3>
+			<p><input type="text" data-ng-model="user.User.nome" placeholder="Nome"></p>
+			<p><input type="text" data-ng-model="user.User.email" placeholder="Email"></p>
+			<buttom class="btn-large waves-light waves-effect green col s12" data-ng-click="User.add(user.User)">Adicionar Usuário</buttom>
+			<p><input type="text" data-ng-model="buscaUsuario" placeholder="Buscar"></p>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th data-ng-click="User.sort(nome)">Nome</th>
+						<th data-ng-click="User.sort(email)">Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="user in User.usuarios | orderBy:User.predicate:User.reverse | filter:buscaUsuario">
+						<td>
+							<input type="checkbox" id="user-{{$index}}" data-ng-model="user.selecionado">
+							<label for="user-{{$index}}"></label>
+						</td>
+						<td>{{ user.nome }}</td>
+						<td>{{ user.email }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<buttm class="btn-large waves-light waves-effect red col s12" data-ng-click="User.remove(User.usuarios)">Remover</buttm>
+		</div>
+	</section>
+	<script type="text/javascript">
+		angular.module('BeMEAN', [])
+			.controller('UserController', UserController)
+
+		function UserController(){
+			var vm = this
+			vm.titulo = "Usuários - BeMEAN"
+			vm.usuarios = [
+				{ 'nome' : 'Adalberto', 'email' : 'adalberto@gmail.com'},
+				{ 'nome' : 'Joãozinho', 'email' : 'joaozinho@gmail.com'},
+				{ 'nome' : 'Abreu', 'email' : 'abreu@hotmail.com'},
+				{ 'nome' : 'Dunha', 'email' : 'dunha@hotmail.com'}
+			]
+
+			vm.add = function(user){
+				vm.usuarios.push(angular.copy(user))
+			}
+
+			vm.sort = function(field){
+				vm.predicate = field
+				vm.reverse = !vm.reverse
+			}
+
+			vm.remove = function(users){
+				users.forEach(function(elem, index){
+					if(users[index].selecionado === true){
+						users.splice(index, 1)
+					}
+				})
+
+				vm.usuarios = users
+			}
+		}
+	</script>
+</body>
+</html>

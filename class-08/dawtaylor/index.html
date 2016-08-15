@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-ng-app="BeMEAN">
+<head>
+	<title>BeMEAN - AngularJS - Class-08</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<style>
+		.animate {
+			transition: all 0.1s linear
+		}
+		buttom.ng-hide {
+			height: 0
+		}
+		a.ng-hide {
+			opacity: 0
+		}
+	</style>
+</head>
+<body>
+	<section class="container">
+		<div class="row" data-ng-controller="UserController as User">
+			<h3 class="text-header">{{ User.titulo }}</h3>
+			<div class="input-field">
+				<label for="nome">Nome</label>
+				<input type="text" id="nome" data-ng-model="User.form.nome">
+			</div>
+			<div class="input-field">
+				<label for="email">Email</label>
+				<input type="text" id="email" data-ng-model="User.form.email">
+			</div>
+			<div class="row">
+				<buttom class="btn-large waves-light waves-effect green col s10 push-s1" data-ng-click="User.add(User.form)">Adicionar Usuário</buttom>
+				<buttom data-ng-hide="!User.editing" class="btn-large waves-light waves-effect blue col s10 push-s1 animate" data-ng-click="User.save(User.form)">Salvar Usuário</buttom>
+			</div>
+			<div class="input-field">
+				<label for="buscar">Buscar</label>
+				<input type="text" id="buscar" data-ng-model="buscaUsuario">
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th data-ng-click="User.sort(nome)">Nome</th>
+						<th data-ng-click="User.sort(email)">Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="user in User.usuarios | filter:buscaUsuario">
+						<td>
+							<input type="checkbox" id="user-{{$index}}" data-ng-model="user.selecionado">
+							<label for="user-{{$index}}"></label>
+						</td>
+						<td>{{ user.nome }}</td>
+						<td>{{ user.email }}</td>
+						<td>
+							<a class="btn waves-effect waves-light blue animate" data-ng-hide="user.editing" data-ng-click="User.edit(user, $index)">Editar </a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<buttom class="btn-large waves-light waves-effect red col s12" data-ng-click="User.remove(User.usuarios)">Remover</buttom>
+		</div>
+	</section>
+	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+	<script type="text/javascript">
+		angular.module('BeMEAN', ['ngAnimate'])
+			.controller('UserController', UserController)
+
+		function UserController(){
+			var vm = this
+			vm.titulo = "Usuários - BeMEAN"
+			vm.usuarios = [
+				{ 'nome' : 'Adalberto', 'email' : 'adalberto@gmail.com'},
+				{ 'nome' : 'Joãozinho', 'email' : 'joaozinho@gmail.com'},
+				{ 'nome' : 'Abreu', 'email' : 'abreu@hotmail.com'},
+				{ 'nome' : 'Dunha', 'email' : 'dunha@hotmail.com'}
+			]
+
+			vm.add = function(user){
+				vm.usuarios.push(angular.copy(user))
+			}
+
+			vm.sort = function(field){
+				vm.predicate = field
+				vm.reverse = !vm.reverse
+			}
+
+			vm.edit = function(user, index){
+				vm.form = angular.copy(user)
+				vm.clearEditing()
+				user.editing = true
+				vm.form.index = index
+				vm.editing = true
+			}
+
+			vm.clearEditing = function(){
+				vm.usuarios.forEach(function(elem){
+					delete elem.editing
+				})
+			}
+
+			vm.remove = function(users){
+				users.forEach(function(elem, index){
+					if(users[index].selecionado === true){
+						users.splice(index, 1)
+					}
+				})
+
+				vm.usuarios = users
+			}
+
+			vm.save = function(user){
+				vm.usuarios.forEach(function(elem, index){
+					if(index === user.index){
+						delete user.index
+						vm.usuarios[index] = user
+
+						vm.form = null
+					}
+				})
+				vm.editing = false
+			}
+		}
+	</script>
+</body>
+</html>
